@@ -1,11 +1,18 @@
 package abc.skeleton.rest;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @RestController
 class HelloController {
+
+    private final WebClient webClient;
+    private final String baseUrl = "http://localhost:8080/";
+
+    public HelloController() {
+        this.webClient = WebClient.create(baseUrl);
+    }
+
     @GetMapping("/hello")
     public String sayHello(@RequestParam(value = "name", defaultValue = "World") String name) {
         return "Hello, " + name + "!";
@@ -19,14 +26,16 @@ class HelloController {
 
     @GetMapping("/consume")
     public Message consumeOwnApi() {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8080/message";
+        String url = baseUrl + "message";
 
         Message request = new Message();
         request.setText("Self-consuming API");
 
-        ResponseEntity<Message> response = restTemplate.postForEntity(url, request, Message.class);
-
-        return response.getBody();
+        return webClient.post()
+                .uri(url)
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(Message.class)
+                .block(); // Synchronizowanie odpowiedzi
     }
 }

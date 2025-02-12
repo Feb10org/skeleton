@@ -1,29 +1,36 @@
 package abc.skeleton.rest;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-import abc.skeleton.rest.Message;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
 public class ApiClient {
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
     private final String baseUrl = "http://localhost:8080/";
 
     public ApiClient() {
-        this.restTemplate = new RestTemplate();
+        this.webClient = WebClient.create(baseUrl);
     }
 
     public String getHello(String name) {
-        String url = baseUrl + "/hello?name=" + name;
-        return restTemplate.getForObject(url, String.class);
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder.path("/hello")
+                        .queryParam("name", name)
+                        .build())
+                .retrieve()
+                .bodyToMono(String.class)
+                .block(); // Czekaj na odpowiedź synchronizując wywołanie
     }
 
     public Message sendMessage(String text) {
-        String url = baseUrl + "/message";
         Message request = new Message();
         request.setText(text);
-        ResponseEntity<Message> response = restTemplate.postForEntity(url, request, Message.class);
-        return response.getBody();
+
+        return webClient.post()
+                .uri("/message")
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(Message.class)
+                .block(); // Czekaj na odpowiedź synchronizując wywołanie
     }
 }
