@@ -20,10 +20,27 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	// cucumber
+	testImplementation("io.cucumber:cucumber-java:7.21.1")
+	testImplementation("io.cucumber:cucumber-junit:7.21.1")
+	testImplementation("io.cucumber:cucumber-spring:7.21.1")
+	// engine to run junit4
+	testImplementation ("org.junit.vintage:junit-vintage-engine:5.11.4")
+
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+	runtimeOnly ("com.h2database:h2")
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	testLogging {
+		events("passed", "failed", "skipped")
+	}
 }
+
+
+
