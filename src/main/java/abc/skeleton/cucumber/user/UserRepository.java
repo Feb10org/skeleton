@@ -1,4 +1,4 @@
-package abc.skeleton.service.user;
+package abc.skeleton.cucumber.user;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

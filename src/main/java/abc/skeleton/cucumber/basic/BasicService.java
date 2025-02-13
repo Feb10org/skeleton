@@ -1,4 +1,4 @@
-package abc.skeleton.service.basic;
+package abc.skeleton.cucumber.basic;
 
 public class BasicService {
 

@@ -1,6 +1,6 @@
-package abc.skeleton.steps;
+package abc.skeleton.cucumber.steps;
 
-import abc.skeleton.service.user.User;
+import abc.skeleton.cucumber.user.User;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;

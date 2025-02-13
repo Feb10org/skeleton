@@ -1,4 +1,4 @@
-package abc.skeleton.cucumber;
+package abc.skeleton.cucumber.config;
 
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
