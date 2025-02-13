@@ -1,41 +1,26 @@
 package abc.skeleton.rest;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @RestController
-class HelloController {
-
-    private final WebClient webClient;
-    private final String baseUrl = "http://localhost:8080/";
-
-    public HelloController() {
-        this.webClient = WebClient.create(baseUrl);
-    }
+public class HelloController {
 
     @GetMapping("/hello")
-    public String sayHello(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return "Hello, " + name + "!";
+    public ResponseEntity<String> sayHello(@RequestParam(value = "name", defaultValue = "World") String name) {
+        String responseMessage = "Hello, " + name + "!";
+        return ResponseEntity.ok(responseMessage);
     }
 
     @PostMapping("/message")
-    public Message receiveMessage(@RequestBody Message message) {
+    public ResponseEntity<Message> receiveMessage(@RequestBody Message message) {
         message.setText("Received: " + message.getText());
-        return message;
+        return ResponseEntity.ok(message);
     }
 
     @GetMapping("/consume")
-    public Message consumeOwnApi() {
-        String url = baseUrl + "message";
-
-        Message request = new Message();
-        request.setText("Self-consuming API");
-
-        return webClient.post()
-                .uri(url)
-                .bodyValue(request)
-                .retrieve()
-                .bodyToMono(Message.class)
-                .block(); // Synchronizowanie odpowiedzi
+    public ResponseEntity<Message> consumeOwnApi(ApiClient apiClient) {
+        Message responseMessage = apiClient.sendMessage("Self-consuming API");
+        return ResponseEntity.ok(responseMessage);
     }
 }

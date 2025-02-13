@@ -1,36 +1,53 @@
 package abc.skeleton.rest;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientException;
 
 @Component
-public class ApiClient {
-    private final WebClient webClient;
+public class ApiClient implements IApiClient {
+    private final RestClient restClient;
     private final String baseUrl = "http://localhost:8080/";
 
+
     public ApiClient() {
-        this.webClient = WebClient.create(baseUrl);
+        this.restClient = RestClient.create();
     }
 
+    @Override
     public String getHello(String name) {
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/hello")
-                        .queryParam("name", name)
-                        .build())
-                .retrieve()
-                .bodyToMono(String.class)
-                .block(); // Czekaj na odpowiedź synchronizując wywołanie
+        String url = baseUrl + "/hello?name=" + name;
+        try {
+            ResponseEntity<String> response = restClient.get()
+                    .uri(url)
+                    .retrieve()
+                    .toEntity(String.class);
+
+            return response.getBody();
+        } catch (RestClientException e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
+    @Override
     public Message sendMessage(String text) {
+        String url = baseUrl + "/message";
         Message request = new Message();
         request.setText(text);
 
-        return webClient.post()
-                .uri("/message")
-                .bodyValue(request)
-                .retrieve()
-                .bodyToMono(Message.class)
-                .block(); // Czekaj na odpowiedź synchronizując wywołanie
+        try {
+
+            ResponseEntity<Message> response = restClient.post()
+                    .uri(url)
+                    .body(request)
+                    .retrieve()
+                    .toEntity(Message.class);
+
+            return response.getBody();
+        } catch (RestClientException e) {
+            System.out.println("Error: " + e.getMessage());
+            return null;
+        }
     }
 }

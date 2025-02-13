@@ -2,6 +2,7 @@ package abc.skeleton.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -20,6 +21,9 @@ class HelloControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Mock
+    private ApiClient apiClient;
+
     @Test
     void testSayHello() throws Exception {
         mockMvc.perform(get("/hello?name=Alice"))
@@ -34,6 +38,7 @@ class HelloControllerTest {
                 .andExpect(content().string("Hello, World!"));
     }
 
+    // as this test is testing self consuming api, you must run application when check if it is working.
     @Test
     void testConsume() throws Exception {
         mockMvc.perform(get("/consume"))
