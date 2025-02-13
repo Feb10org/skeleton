@@ -59,7 +59,7 @@ services:
       - MSSQL_DB=${DB_NAME}
       - MSSQL_USER=${USER_NAME}
       - MSSQL_PASSWORD=${USER_PWD}
-    command: /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P ${SA_PASSWORD} -i /sql/setup.sql
+    command: /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P ${SA_PASSWORD} -i /sql/setup.sql -e
 
 networks:
   sqlnet:
