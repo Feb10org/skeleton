@@ -33,6 +33,5 @@ public class RequestHandler implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         log.info("go out from controller");
         MDC.remove("traceId");
-        log.info("trace id removed");
     }
 }
