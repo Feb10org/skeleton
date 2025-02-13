@@ -13,18 +13,18 @@ import static java.util.UUID.randomUUID;
 @Slf4j
 public class RequestHandler implements HandlerInterceptor {
 
-    private static final String CORRELATION_ID_HEADER = "X-Correlation-Id";
+    private static final String TRACE_ID_HEADER = "X-Trace-Id";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        var correlationId = request.getHeader(CORRELATION_ID_HEADER);
-        if (correlationId == null || correlationId.isBlank()) {
-            correlationId = randomUUID().toString();
+        var traceId = request.getHeader(TRACE_ID_HEADER);
+        if (traceId == null || traceId.isBlank()) {
+            traceId = randomUUID().toString();
         }
-        MDC.put("traceId", correlationId);
+        MDC.put("traceId", traceId);
 
         log.info("handle request before goes to controller");
-        response.setHeader(CORRELATION_ID_HEADER, correlationId);
+        response.setHeader(TRACE_ID_HEADER, traceId);
         return true;
     }
 
@@ -32,6 +32,7 @@ public class RequestHandler implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         log.info("go out from controller");
-        MDC.clear();
+        MDC.remove("traceId");
+        log.info("trace id removed");
     }
 }
