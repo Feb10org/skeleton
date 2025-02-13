@@ -1,9 +1,9 @@
-package abc.skeleton.steps;
+package abc.skeleton.cucumber.steps;
 
 import static org.junit.Assert.assertEquals;
 
 
-import abc.skeleton.service.basic.BasicService;
+import abc.skeleton.cucumber.basic.BasicService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

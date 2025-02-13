@@ -1,4 +1,4 @@
-package abc.skeleton.service.user;
+package abc.skeleton.cucumber.user;
 
 import jakarta.persistence.*;
 

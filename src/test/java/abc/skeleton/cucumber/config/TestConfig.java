@@ -1,4 +1,4 @@
-package abc.skeleton.config;
+package abc.skeleton.cucumber.config;
 
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Bean;
