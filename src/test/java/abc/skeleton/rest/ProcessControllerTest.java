@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 class ProcessControllerTest {
 
     @Mock
-    private SkeletonApiClient skeletonApiClient;
+    private SkeletonApiClientImpl skeletonApiClientImpl;
 
     @InjectMocks
     private ProcessController processController;

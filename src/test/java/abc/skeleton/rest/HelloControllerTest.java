@@ -22,7 +22,7 @@ class HelloControllerTest {
     private ObjectMapper objectMapper;
 
     @Mock
-    private SkeletonApiClient skeletonApiClient;
+    private SkeletonApiClientImpl skeletonApiClientImpl;
 
     @Test
     void testSayHello() throws Exception {

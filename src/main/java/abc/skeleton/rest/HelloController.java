@@ -19,8 +19,8 @@ public class HelloController {
     }
 
     @GetMapping("/consume")
-    public ResponseEntity<Message> consumeOwnApi(SkeletonApiClient skeletonApiClient) {
-        Message responseMessage = skeletonApiClient.sendMessage("Self-consuming API");
+    public ResponseEntity<Message> consumeOwnApi(SkeletonApiClientImpl skeletonApiClientImpl) {
+        Message responseMessage = skeletonApiClientImpl.sendMessage("Self-consuming API");
         return ResponseEntity.ok(responseMessage);
     }
 }
