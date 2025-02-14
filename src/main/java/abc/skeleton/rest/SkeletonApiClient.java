@@ -41,15 +41,15 @@ public class SkeletonApiClient implements SkeletonApiClientImpl {
                 .fromUriString("/message")
                 .build()
                 .toUriString();
-        Message request = new Message();
-        request.setText(text);
+        Message requestBody = new Message();
+        requestBody.setText(text);
 
 
         try {
 
             ResponseEntity<Message> response = restClient.post()
                     .uri(url)
-                    .body(request)
+                    .body(requestBody)
                     .retrieve()
                     .toEntity(Message.class);
 
