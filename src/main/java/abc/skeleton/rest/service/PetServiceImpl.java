@@ -23,7 +23,8 @@ public class PetServiceImpl implements PetService {
     @Override
     public PetDto addPet(String name) {
         return PetDto.builder()
-                .category(CategoryDto.builder().name("cats").build())
+                .id(3003L)
+                .category(CategoryDto.builder().id(3003L).name("cats").build())
                 .name(name)
                 .status(PetDto.StatusEnum.AVAILABLE)
                 .photoUrls(List.of("http://photo.com/1", "http://photo.com/2"))

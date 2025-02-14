@@ -27,9 +27,6 @@ dependencies {
 	implementation("org.openapitools:jackson-databind-nullable:$jacksonDatabindNullableVersion")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
-	testImplementation("org.mockito:mockito-core:5.9.0")
-	testImplementation("org.mockito:mockito-junit-jupiter:5.9.0")
-	testImplementation("io.rest-assured:spring-mock-mvc:5.5.0")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -57,7 +54,6 @@ tasks.named<JavaCompile>("compileJava") {
 }
 
 sourceSets["main"].java.srcDir("${layout.buildDirectory.asFile.get()}/generated/src/main/java")
-
 
 tasks.withType<Test> {
 	useJUnitPlatform()
