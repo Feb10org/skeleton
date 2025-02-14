@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 class ProcessControllerTest {
 
     @Mock
-    private SkeletonApiClientImpl skeletonApiClientImpl;
+    private SkeletonApiClient skeletonApiClient;
 
     @InjectMocks
     private ProcessController processController;
@@ -29,6 +29,6 @@ class ProcessControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/process"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value("Received: Send"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value("Received: Processing: Hello, SpringBootUser!"));
     }
 }

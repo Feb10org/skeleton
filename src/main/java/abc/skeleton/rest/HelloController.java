@@ -1,10 +1,18 @@
 package abc.skeleton.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class HelloController {
+
+    private final SkeletonApiClient skeletonApiClient;
+
+    @Autowired
+    public HelloController(SkeletonApiClient skeletonApiClient) {
+        this.skeletonApiClient = skeletonApiClient;
+    }
 
     @GetMapping("/hello")
     public ResponseEntity<String> sayHello(@RequestParam(value = "name", defaultValue = "World") String name) {
@@ -19,8 +27,8 @@ public class HelloController {
     }
 
     @GetMapping("/consume")
-    public ResponseEntity<Message> consumeOwnApi(SkeletonApiClientImpl skeletonApiClientImpl) {
-        Message responseMessage = skeletonApiClientImpl.sendMessage("Self-consuming API");
+    public ResponseEntity<Message> consumeOwnApi() {
+        Message responseMessage = skeletonApiClient.sendMessage("Self-consuming API");
         return ResponseEntity.ok(responseMessage);
     }
 }

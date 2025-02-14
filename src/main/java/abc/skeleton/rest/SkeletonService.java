@@ -4,17 +4,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SkeletonService {
-    private final SkeletonApiClientImpl skeletonApiClientImpl;
+    private final SkeletonApiClient skeletonApiClient;
 
-    public SkeletonService(SkeletonApiClientImpl skeletonApiClientImpl) {
-        this.skeletonApiClientImpl = skeletonApiClientImpl;
+    public SkeletonService(SkeletonApiClient skeletonApiClient) {
+        this.skeletonApiClient = skeletonApiClient;
     }
 
     public String getHello(String text) {
-        return skeletonApiClientImpl.getHello("Ben");
+        return skeletonApiClient.getHello(text);
     }
 
     public Message sendMessage(String text) {
-        return skeletonApiClientImpl.sendMessage("Send");
+        return skeletonApiClient.sendMessage(text);
     }
 }

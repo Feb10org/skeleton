@@ -1,5 +1,6 @@
 package abc.skeleton.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -11,7 +12,7 @@ public class SkeletonApiClientImpl implements SkeletonApiClient {
     private final RestClient restClient;
     private final String baseUrl = "http://localhost:8080/";
 
-
+    @Autowired
     public SkeletonApiClientImpl() {
         this.restClient = RestClient.builder().baseUrl(baseUrl).build();
     }

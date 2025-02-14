@@ -6,17 +6,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessageService {
 
-    private final SkeletonApiClientImpl skeletonApiClientImpl;
+    private final SkeletonApiClient skeletonApiClient;
 
-    public MessageService(SkeletonApiClientImpl skeletonApiClientImpl) {
-        this.skeletonApiClientImpl = skeletonApiClientImpl;
+    public MessageService(SkeletonApiClient skeletonApiClient) {
+        this.skeletonApiClient = skeletonApiClient;
     }
 
     public String getHelloMessage(String name) {
-        return skeletonApiClientImpl.getHello(name);
+        return skeletonApiClient.getHello(name);
     }
 
     public Message processMessage(String input) {
-        return skeletonApiClientImpl.sendMessage("Processed: " + input);
+        return skeletonApiClient.sendMessage("Processed: " + input);
     }
 }
