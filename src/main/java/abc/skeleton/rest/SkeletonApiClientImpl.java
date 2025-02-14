@@ -1,6 +1,6 @@
 package abc.skeleton.rest;
 
-public interface IApiClient {
+public interface SkeletonApiClientImpl {
     String getHello(String name);
 
     Message sendMessage(String text);

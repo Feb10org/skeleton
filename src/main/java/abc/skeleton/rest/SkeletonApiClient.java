@@ -4,20 +4,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
-public class ApiClient implements IApiClient {
+public class SkeletonApiClient implements SkeletonApiClientImpl {
     private final RestClient restClient;
     private final String baseUrl = "http://localhost:8080/";
 
 
-    public ApiClient() {
-        this.restClient = RestClient.create();
+    public SkeletonApiClient() {
+        this.restClient = RestClient.builder().baseUrl(baseUrl).build();
     }
 
     @Override
     public String getHello(String name) {
-        String url = baseUrl + "/hello?name=" + name;
+        String url = UriComponentsBuilder
+                .fromUriString("/hello")
+                .queryParam("name", name)
+                .build()
+                .toUriString();
         try {
             ResponseEntity<String> response = restClient.get()
                     .uri(url)
@@ -32,9 +37,13 @@ public class ApiClient implements IApiClient {
 
     @Override
     public Message sendMessage(String text) {
-        String url = baseUrl + "/message";
+        String url = UriComponentsBuilder
+                .fromUriString("/message")
+                .build()
+                .toUriString();
         Message request = new Message();
         request.setText(text);
+
 
         try {
 

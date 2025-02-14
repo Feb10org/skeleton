@@ -23,7 +23,6 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	implementation("org.springframework.boot:spring-boot-starter")
-	implementation("org.apache.httpcomponents:httpclient:4.5.13")
 }
 
 tasks.withType<Test> {

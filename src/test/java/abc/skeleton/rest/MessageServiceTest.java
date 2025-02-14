@@ -14,14 +14,14 @@ import static org.mockito.Mockito.when;
 class MessageServiceTest {
 
     @Mock
-    private ApiClient apiClient;
+    private SkeletonApiClient skeletonApiClient;
 
     @InjectMocks
     private MessageService messageService;
 
     @Test
     void testGetHelloMessage() {
-        when(apiClient.getHello("TestUser")).thenReturn("Hello, TestUser!");
+        when(skeletonApiClient.getHello("TestUser")).thenReturn("Hello, TestUser!");
         String result = messageService.getHelloMessage("TestUser");
         assertEquals("Hello, TestUser!", result);
     }
@@ -29,7 +29,7 @@ class MessageServiceTest {
     @Test
     void testProcessMessage() {
         Message mockMessage = new Message("Processed: Test Message");
-        when(apiClient.sendMessage("Processed: Test Message")).thenReturn(mockMessage);
+        when(skeletonApiClient.sendMessage("Processed: Test Message")).thenReturn(mockMessage);
 
         Message result = messageService.processMessage("Test Message");
         assertNotNull(result);

@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 public class MessageService {
 
     @Autowired
-    private ApiClient apiClient;
+    private final SkeletonApiClient skeletonApiClient;
 
-    public MessageService(ApiClient apiClient) {
-        this.apiClient = apiClient;
+    public MessageService(SkeletonApiClient skeletonApiClient) {
+        this.skeletonApiClient = skeletonApiClient;
     }
 
     public String getHelloMessage(String name) {
-        return apiClient.getHello(name);
+        return skeletonApiClient.getHello(name);
     }
 
     public Message processMessage(String input) {
-        return apiClient.sendMessage("Processed: " + input);
+        return skeletonApiClient.sendMessage("Processed: " + input);
     }
 }
