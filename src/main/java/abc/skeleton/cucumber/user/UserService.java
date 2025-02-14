@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
-    
+
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    
+
     public User registerUser(String username, String password) {
         userRepository.findByUsername(username).ifPresent(u -> {
             throw new RuntimeException("User already exists");
