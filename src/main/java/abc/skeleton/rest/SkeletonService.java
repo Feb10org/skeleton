@@ -10,11 +10,11 @@ public class SkeletonService {
         this.skeletonApiClient = skeletonApiClient;
     }
 
-    public String getHello(String text) {
-        return skeletonApiClient.getHello(text);
+    public String getHelloMessage(String name) {
+        return skeletonApiClient.getHello(name);
     }
 
-    public Message sendMessage(String text) {
-        return skeletonApiClient.sendMessage(text);
+    public Message processMessage(String input) {
+        return skeletonApiClient.sendMessage("Processed: " + input);
     }
 }

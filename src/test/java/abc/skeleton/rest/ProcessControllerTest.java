@@ -29,6 +29,6 @@ class ProcessControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/process"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value("Received: Processing: Hello, SpringBootUser!"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value("Received: Processed: Processing: Hello, SpringBootUser!"));
     }
 }

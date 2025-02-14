@@ -11,18 +11,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class MessageServiceTest {
+class SkeletonServiceTest {
 
     @Mock
     private SkeletonApiClient skeletonApiClient;
 
     @InjectMocks
-    private MessageService messageService;
+    private SkeletonService skeletonService;
 
     @Test
     void testGetHelloMessage() {
         when(skeletonApiClient.getHello("TestUser")).thenReturn("Hello, TestUser!");
-        String result = messageService.getHelloMessage("TestUser");
+        String result = skeletonService.getHelloMessage("TestUser");
         assertEquals("Hello, TestUser!", result);
     }
 
@@ -31,7 +31,7 @@ class MessageServiceTest {
         Message mockMessage = new Message("Processed: Test Message");
         when(skeletonApiClient.sendMessage("Processed: Test Message")).thenReturn(mockMessage);
 
-        Message result = messageService.processMessage("Test Message");
+        Message result = skeletonService.processMessage("Test Message");
         assertNotNull(result);
         assertEquals("Processed: Test Message", result.getText());
     }

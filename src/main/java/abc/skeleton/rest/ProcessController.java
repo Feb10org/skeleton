@@ -15,8 +15,8 @@ public class ProcessController {
 
     @GetMapping("/process")
     public ResponseEntity<Message> process() {
-        String response = skeletonService.getHello("SpringBootUser");
+        String response = skeletonService.getHelloMessage("SpringBootUser");
 
-        return ResponseEntity.ok(skeletonService.sendMessage("Processing: " + response));
+        return ResponseEntity.ok(skeletonService.processMessage("Processing: " + response));
     }
 }
