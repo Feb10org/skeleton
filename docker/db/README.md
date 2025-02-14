@@ -18,6 +18,9 @@ docker compose stop
 docker compose start
 ```
 
+### DB initialization script
+DB is being initialized by the [setup.sql](./sql/setup.sql) file
+
 ### Connection details 
  - URL: jdbc:sqlserver://localhost:1433;database=<DB_NAME>
  - db name and credentials: check [.env](./.env) file
