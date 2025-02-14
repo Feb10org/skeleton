@@ -1,4 +1,5 @@
 val jacksonDatabindNullableVersion = "0.2.6"
+val restAssuredVersion = "5.5.0"
 
 plugins {
 	java
@@ -25,6 +26,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.openapitools:jackson-databind-nullable:$jacksonDatabindNullableVersion")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+	testImplementation("org.mockito:mockito-core:5.9.0")
+	testImplementation("org.mockito:mockito-junit-jupiter:5.9.0")
+	testImplementation("io.rest-assured:spring-mock-mvc:5.5.0")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -38,6 +43,7 @@ openApiGenerate {
 	configOptions.set(
         mapOf(
             "library" to "restclient",
+			"generateBuilders" to "true",
             "dateLibrary" to "java8"
         )
 	)

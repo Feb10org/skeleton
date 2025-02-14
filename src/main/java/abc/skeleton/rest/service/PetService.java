@@ -6,4 +6,6 @@ public interface PetService {
 
     PetDto getPet(Long id);
 
+    PetDto addPet(String name);
+
 }
