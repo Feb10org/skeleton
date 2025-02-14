@@ -1,0 +1,72 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: azure-sql-edge
+    environment:
+      # Change this password in production!
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${SA_PASSWORD}
+      - MSSQL_PID=Developer
+      # Configure memory limits (optional)
+      - MSSQL_MEMORY_LIMIT_MB=2048
+      # Set timezone
+      - TZ=UTC
+    ports:
+      - "1433:1433"
+    networks:
+      - sqlnet
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 3G
+        reservations:
+          memory: 2G
+
+  sqlhealth:
+    image: mcr.microsoft.com/mssql-tools
+    container_name: mssqlhealth
+    profiles:
+      - init
+    restart: "no"
+    networks:
+      - sqlnet
+    depends_on:
+      - sqlserver
+    command: |
+      bash -c '
+      for i in {1..50}; 
+      do
+        if /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P ${SA_PASSWORD} -Q "SELECT 1" > /dev/null 2>&1; then
+          echo "SQL Server is ready"
+          exit 0
+        fi
+        echo "Waiting for SQL Server... attempt $${i}"
+        sleep 2
+      done
+      echo "Failed to connect to SQL Server after 50 attempts"
+      exit 1'
+
+  sqlinit:
+    image: mcr.microsoft.com/mssql-tools
+    container_name: mssqlinit
+    profiles:
+      - init
+    restart: "no"
+    volumes:
+      - ./sql:/sql
+    networks:
+      - sqlnet
+    depends_on:
+      sqlhealth:
+        condition: service_completed_successfully
+    environment:
+      #variables for init script
+      - MSSQL_DB=${DB_NAME}
+      - MSSQL_USER=${DB_USERNAME}
+      - MSSQL_PASSWORD=${DB_USER_PWD}
+    command: /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P ${SA_PASSWORD} -i /sql/setup.sql -e -b
+
+networks:
+  sqlnet:
+    name: sqlnet
