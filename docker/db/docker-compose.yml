@@ -26,6 +26,9 @@ services:
   sqlhealth:
     image: mcr.microsoft.com/mssql-tools
     container_name: mssqlhealth
+    profiles:
+      - init
+    restart: "no"
     networks:
       - sqlnet
     depends_on:
@@ -47,6 +50,9 @@ services:
   sqlinit:
     image: mcr.microsoft.com/mssql-tools
     container_name: mssqlinit
+    profiles:
+      - init
+    restart: "no"
     volumes:
       - ./sql:/sql
     networks:
@@ -57,8 +63,8 @@ services:
     environment:
       #variables for init script
       - MSSQL_DB=${DB_NAME}
-      - MSSQL_USER=${USER_NAME}
-      - MSSQL_PASSWORD=${USER_PWD}
+      - MSSQL_USER=${DB_USERNAME}
+      - MSSQL_PASSWORD=${DB_USER_PWD}
     command: /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P ${SA_PASSWORD} -i /sql/setup.sql -e -b
 
 networks:
