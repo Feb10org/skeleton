@@ -1,5 +1,6 @@
-package abc.skeleton.rest;
+package abc.skeleton.rest.api;
 
+import abc.skeleton.rest.model.Message;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;

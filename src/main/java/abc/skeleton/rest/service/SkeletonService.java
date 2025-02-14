@@ -1,5 +1,7 @@
-package abc.skeleton.rest;
+package abc.skeleton.rest.service;
 
+import abc.skeleton.rest.api.SkeletonApiClient;
+import abc.skeleton.rest.model.Message;
 import org.springframework.stereotype.Service;
 
 @Service

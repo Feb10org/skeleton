@@ -1,5 +1,7 @@
 package abc.skeleton.rest;
 
+import abc.skeleton.rest.api.SkeletonApiClient;
+import abc.skeleton.rest.controller.ProcessController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

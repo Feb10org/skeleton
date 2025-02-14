@@ -1,4 +1,4 @@
-package abc.skeleton.rest;
+package abc.skeleton.rest.model;
 
 public class Message {
     private String text;
