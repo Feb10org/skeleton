@@ -1,6 +1,6 @@
-package abc.skeleton.rest.controller;
+package abc.skeleton.rest_client.controller;
 
-import abc.skeleton.rest.service.PetService;
+import abc.skeleton.rest_client.service.PetService;
 import com.example.model.PetDto;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package abc.skeleton.rest.config;
+package abc.skeleton.rest_client.config;
 
 import com.example.api.PetApi;
 import com.example.invoker.ApiClient;

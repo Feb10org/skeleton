@@ -1,4 +1,4 @@
-package abc.skeleton.rest.controller;
+package abc.skeleton.rest_client.controller;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
