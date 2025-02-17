@@ -26,9 +26,9 @@ group = "abc"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 configurations {
@@ -38,7 +38,7 @@ configurations {
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
@@ -67,10 +67,10 @@ tasks.named<JavaCompile>("compileJava") {
 sourceSets["main"].java.srcDir("${layout.buildDirectory.asFile.get()}/generated/src/main/java")
 
 tasks.withType<Test> {
-	useJUnitPlatform()
-	testLogging {
-		events("passed", "failed", "skipped")
-	}
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "failed", "skipped")
+    }
 }
 
 flyway {
