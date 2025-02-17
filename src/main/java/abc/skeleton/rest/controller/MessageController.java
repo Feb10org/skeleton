@@ -6,11 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class HelloController {
+public class MessageController {
 
     private final SkeletonApiClient skeletonApiClient;
 
-    public HelloController(SkeletonApiClient skeletonApiClient) {
+    public MessageController(SkeletonApiClient skeletonApiClient) {
         this.skeletonApiClient = skeletonApiClient;
     }
 
