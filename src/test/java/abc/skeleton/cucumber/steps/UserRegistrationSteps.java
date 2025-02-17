@@ -48,9 +48,10 @@ public class UserRegistrationSteps {
         HttpEntity<User> request = new HttpEntity<>(user, headers);
         baseUrl = "http://localhost:" + port + "/api/users/register";
         registerUserResponse = restTemplate.postForEntity(baseUrl, request, User.class);
+
     }
 
-    @Then("the registration should be successful")
+    @Then("the registration is successful")
     public void the_registration_should_be_successful() {
         assertEquals(HttpStatus.OK, registerUserResponse.getStatusCode(), "Status code should be 200 OK");
         User registeredUser = registerUserResponse.getBody();
@@ -58,11 +59,16 @@ public class UserRegistrationSteps {
         assertNotNull(registeredUser.getId(), "Registered user should have an id");
     }
 
-
     @When("I fetch the user with username {string}")
     public void i_fetch_the_user_with_username(String username) {
         String fetchUrl = "http://localhost:" + port + "/api/users/" + username;
         getUserResponse = restTemplate.getForEntity(fetchUrl, User.class);
+    }
+
+    @When("I fetch the user with username {string} that has not been registered before")
+    public void i_fetch_the_user_that_does_not_exist(String username) {
+        String fetchUrl = "http://localhost:" + port + "/api/users/" + username;
+        errorResponse = restTemplate.getForEntity(fetchUrl, String.class);
     }
 
     @Then("the fetched user should have password {string}")
@@ -74,18 +80,8 @@ public class UserRegistrationSteps {
         assertEquals(expectedPassword, fetchedUser.getPassword(), "Passwords should match");
     }
 
-    @When("I register the user with username {string} and password {string} the first time")
-    public void i_register_the_user_first_time(String username, String password) {
-        User user = new User(username, password);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<User> request = new HttpEntity<>(user, headers);
-        baseUrl = "http://localhost:" + port + "/api/users/register";
-        registerUserResponse = restTemplate.postForEntity(baseUrl, request, User.class);
-        assertEquals(HttpStatus.OK, registerUserResponse.getStatusCode(), "First registration should succeed");
-    }
 
-    @And("I register the user with username {string} and password {string} again")
+    @And("I register the user with username {string} and password {string} for the second time")
     public void i_register_the_user_again(String username, String password) {
         User user = new User(username, password);
         HttpHeaders headers = new HttpHeaders();
@@ -101,5 +97,13 @@ public class UserRegistrationSteps {
         assertTrue(errorResponse.getBody().contains(expectedMessage),
                 "Expected error message to contain: " + expectedMessage);
         assertEquals(HttpStatus.CONFLICT, errorResponse.getStatusCode());
+    }
+
+    @Then("I got the error response with message {string}")
+    public void error_response_with_message(String expectedMessage) {
+        assertNotNull(errorResponse, "An error response is expected");
+        assertTrue(errorResponse.getBody().contains(expectedMessage),
+                "Expected error message to contain: " + expectedMessage);
+        assertEquals(HttpStatus.NOT_FOUND, errorResponse.getStatusCode());
     }
 }

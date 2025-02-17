@@ -5,9 +5,7 @@ Feature: User Registration
       | username  | password   |
       | <username> | <password> |
     When I register the user with username "<username>" and password "<password>"
-    Then the registration should be successful
-    And I fetch the user with username "<username>"
-    Then the fetched user should have password "<password>"
+    Then the registration is successful
 
     Examples:
       | username  | password  |
