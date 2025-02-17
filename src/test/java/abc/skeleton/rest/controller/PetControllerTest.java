@@ -23,7 +23,7 @@ class PetControllerTest {
     @Test
     void shouldReturn200() {
         given()
-            .pathParam("id", 100)
+            .pathParam("id", 10)
             .port(port)
         .when()
             .get("/pet/{id}")
@@ -34,7 +34,7 @@ class PetControllerTest {
     @Test
     void shouldReturnResponseBody() {
         given()
-            .pathParam("id", 100)
+            .pathParam("id", 10)
             .port(port)
         .when()
             .get("/pet/{id}")
