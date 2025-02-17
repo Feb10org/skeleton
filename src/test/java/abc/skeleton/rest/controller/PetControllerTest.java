@@ -40,7 +40,7 @@ class PetControllerTest {
             .get("/pet/{id}")
         .then()
             .statusCode(200)
-            .body("name", equalTo("doggi111e"));
+            .body("name", equalTo("doggie"));
     }
 
 }
