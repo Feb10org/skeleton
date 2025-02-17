@@ -26,7 +26,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.openapitools:jackson-databind-nullable:$jacksonDatabindNullableVersion")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("io.rest_client-assured:rest_client-assured:$restAssuredVersion")
+	testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
