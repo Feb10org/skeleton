@@ -31,6 +31,6 @@ public class PetController {
         return ResponseEntity.ok(petService.addPet(newPet.name()));
     }
 
-    private record CreatePetDto(String name) {
+    public record CreatePetDto(String name) {
     }
 }
