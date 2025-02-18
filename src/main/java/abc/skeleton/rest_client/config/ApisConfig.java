@@ -2,13 +2,20 @@ package abc.skeleton.rest_client.config;
 
 import com.example.api.PetApi;
 import com.example.invoker.ApiClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Configuration
 public class ApisConfig {
 
-    private static final String PETSTORE_API_BASE_PATH = "https://petstore3.swagger.io/api/v3";
+    private final String PETSTORE_API_BASE_PATH;
+
+    public ApisConfig(@Value("${remote-apis.petstore.base-path}") String petstoreBasePath) {
+        this.PETSTORE_API_BASE_PATH = petstoreBasePath;
+    }
 
     @Bean
     public PetApi petApi() {
@@ -18,8 +25,14 @@ public class ApisConfig {
     }
 
     private ApiClient createPetApiClient() {
-        ApiClient apiClient = new ApiClient();
-        apiClient.setBasePath(PETSTORE_API_BASE_PATH);
+        RestClient restClient = RestClient.builder()
+                .requestInterceptor(new CorrelationIdInterceptor())
+                .build();
+        ApiClient apiClient = new ApiClient(restClient);
+        apiClient.setBasePath(UriComponentsBuilder.fromUriString(PETSTORE_API_BASE_PATH)
+                .path(apiClient.getBasePath())
+                .toUriString());
+        apiClient.addDefaultHeader("X-Application-ID", "petstore-service");
         return apiClient;
     }
 
