@@ -28,6 +28,19 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+
+	testImplementation("org.springframework:spring-jdbc")
+	testImplementation("org.testcontainers:junit-jupiter")
+	testImplementation("org.testcontainers:testcontainers")
+	testImplementation("org.junit.jupiter:junit-jupiter")
+	testImplementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+	testImplementation("com.microsoft.sqlserver:mssql-jdbc")
+	testImplementation("org.testcontainers:mssqlserver")
+
+	implementation("org.springframework.boot:spring-boot-starter")
+	testImplementation("org.springframework.boot:spring-boot-test")
+
 }
 
 openApiGenerate {
