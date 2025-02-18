@@ -43,4 +43,19 @@ class DbContainerTest {
             assertThat(connection.isValid(1)).isTrue();
         }
     }
+
+    @Test
+    void testUserTableExistence() throws SQLException {
+        try (Connection connection = sqlServer.createConnection("");
+             var statement = connection.prepareStatement(
+                     "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'users'");
+             var resultSet = statement.executeQuery()) {
+
+            assertThat(connection.isValid(1)).isTrue();
+
+            boolean tableExists = resultSet.next();
+            assertThat(tableExists).isTrue();
+        }
+    }
+
 }
