@@ -1,6 +1,6 @@
 package abc.skeleton.testcontainers;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -9,11 +9,14 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+
 
 @SpringBootTest
 @Testcontainers
+//@Sql(statements = "CREATE TABLE IF NOT EXISTS car (id BIGSERIAL PRIMARY KEY, brand VARCHAR(255) NOT NULL)")
 class CarRepositoryTest {
 
     @Autowired
@@ -34,10 +37,10 @@ class CarRepositoryTest {
     void whenCallingSave_thenEntityIsPersistedToDb() {
         Car car = new Car("Toyota");
         carRepository.save(car);
-
-        assertThat(carRepository.findAll())
-                .hasSize(1).first()
+        List<Car> cars = carRepository.findAll();
+        assertThat(cars)
+                .hasSize(3)
                 .extracting(Car::getBrand)
-                .isEqualTo("Toyota");
+                .containsExactlyInAnyOrder("Mercedes", "Toyota", "BMW");
     }
 }
