@@ -1,5 +1,6 @@
 val jacksonDatabindNullableVersion = "0.2.6"
 val restAssuredVersion = "5.5.0"
+val wiremockTestcontainersVersion = "1.0-alpha-14"
 
 plugins {
 	java
@@ -28,6 +29,10 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testImplementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:$wiremockTestcontainersVersion")
+	testImplementation("org.wiremock:wiremock:3.12.0")
+//	testImplementation("org.testcontainers:wiremock:1.19.3")
+	testImplementation("org.testcontainers:junit-jupiter:1.20.4")
 }
 
 openApiGenerate {
