@@ -1,10 +1,8 @@
-package abc.skeleton.testcontainers;
+package abc.skeleton.testcontainers.postgresql;
 
-import abc.skeleton.testcontainers.config.EntityManagerFactoryConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -18,14 +16,13 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SpringBootTest
 @Testcontainers
-@Import(EntityManagerFactoryConfig.class)
 class CarRepositoryTest {
 
     @Autowired
     private CarRepository carRepository;
 
     @Container
-    static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:16-alpine").withDatabaseName("test-db");
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine").withDatabaseName("test-db");
 
 
     @DynamicPropertySource
@@ -36,7 +33,7 @@ class CarRepositoryTest {
     }
 
     @Test
-    void whenCallingSave_thenEntityIsPersistedToDb() {
+    void testThatDbIsPopulatedBeforeAndNewElementIsSaved() {
         Car car = new Car("Toyota");
         carRepository.save(car);
         List<Car> cars = carRepository.findAll();

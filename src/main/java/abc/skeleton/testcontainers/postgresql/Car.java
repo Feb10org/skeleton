@@ -1,4 +1,4 @@
-package abc.skeleton.testcontainers;
+package abc.skeleton.testcontainers.postgresql;
 
 
 import jakarta.persistence.*;

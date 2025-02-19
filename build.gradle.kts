@@ -26,6 +26,11 @@ dependencies {
 	testImplementation("org.testcontainers:junit-jupiter:1.20.4")
 	implementation("org.postgresql:postgresql:42.7.5")
 	testImplementation("org.assertj:assertj-core:3.27.3")
+	implementation("org.springframework.kafka:spring-kafka:3.3.3")
+	testImplementation("org.springframework.kafka:spring-kafka-test:3.3.3")
+	testImplementation("org.testcontainers:kafka:1.20.4")
+
+
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
