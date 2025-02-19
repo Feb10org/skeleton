@@ -1,8 +1,6 @@
-package abc.skeleton.integration_tests.database;
+package abc.skeleton.testcontainets.integration_tests.database;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MSSQLServerContainer;
@@ -15,11 +13,10 @@ import java.sql.SQLException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
-@SpringBootTest
-class DbContainerTest {
+public abstract class DataBaseConfig {
+
     @Container
-    private static final MSSQLServerContainer<?> sqlServer = new MSSQLServerContainer<>("mcr.microsoft.com/mssql/server:2019-latest")
-            //"mcr.microsoft.com/azure-sql-edge:latest"
+    static MSSQLServerContainer<?> sqlServer = new MSSQLServerContainer<>("mcr.microsoft.com/mssql/server:2019-latest")
             .acceptLicense()
             .withInitScript("init.sql");
 
@@ -30,11 +27,6 @@ class DbContainerTest {
         registry.add("spring.datasource.username", sqlServer::getUsername);
         registry.add("spring.datasource.password", sqlServer::getPassword);
         registry.add("spring.datasource.driver-class-name", () -> "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    }
-
-    @BeforeAll
-    static void setUp() {
-        assertThat(sqlServer.isRunning()).isTrue();
     }
 
     @Test
@@ -48,7 +40,7 @@ class DbContainerTest {
     void testUserTableExistence() throws SQLException {
         try (Connection connection = sqlServer.createConnection("");
              var statement = connection.prepareStatement(
-                     "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'users'");
+                     "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'orders'");
              var resultSet = statement.executeQuery()) {
 
             assertThat(connection.isValid(1)).isTrue();
