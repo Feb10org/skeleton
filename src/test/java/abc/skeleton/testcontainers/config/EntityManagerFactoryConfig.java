@@ -1,20 +1,21 @@
-package abc.skeleton.testcontainers;
+package abc.skeleton.testcontainers.config;
 
 import jakarta.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
-@Configuration
+import javax.sql.DataSource;
+
+@TestConfiguration
 public class EntityManagerFactoryConfig {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-            DataSource dataSource, 
+            DataSource dataSource,
             JpaVendorAdapter jpaVendorAdapter) {
-        
+
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource);
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter);

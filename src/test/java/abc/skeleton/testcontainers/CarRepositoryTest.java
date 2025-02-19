@@ -1,8 +1,10 @@
 package abc.skeleton.testcontainers;
 
+import abc.skeleton.testcontainers.config.EntityManagerFactoryConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -16,7 +18,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SpringBootTest
 @Testcontainers
-//@Sql(statements = "CREATE TABLE IF NOT EXISTS car (id BIGSERIAL PRIMARY KEY, brand VARCHAR(255) NOT NULL)")
+@Import(EntityManagerFactoryConfig.class)
 class CarRepositoryTest {
 
     @Autowired
