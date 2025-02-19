@@ -63,17 +63,17 @@ class PetControllerWiremockStubInTest {
                                 """)));
     }
 
-//    @Test
-//    void shouldAddPetSuccessfully() {
-//        given()
-//            .contentType(ContentType.JSON)
-//            .body(new PetController.CreatePetDto("teddyXXX"))
-//            .port(port)
-//        .when()
-//            .post("/pet")
-//        .then()
-//            .statusCode(200);
-//    }
+    @Test
+    void shouldAddPetSuccessfully() {
+        given()
+            .contentType(ContentType.JSON)
+            .body(new PetController.CreatePetDto("teddyXXX"))
+            .port(port)
+        .when()
+            .post("/pet")
+        .then()
+            .statusCode(200);
+    }
 
     @Test
     void shouldRetrievePetSuccessfully() {
