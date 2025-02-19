@@ -1,6 +1,3 @@
-val jacksonDatabindNullableVersion = "0.2.6"
-val restAssuredVersion = "5.5.0"
-
 plugins {
 	java
 	id("org.springframework.boot") version "3.4.2"
@@ -33,7 +30,6 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -51,8 +47,6 @@ dependencies {
 	testImplementation("org.testcontainers:mssqlserver")
 
 }
-
-sourceSets["main"].java.srcDir("${layout.buildDirectory.asFile.get()}/generated/src/main/java")
 
 tasks.withType<Test> {
 	useJUnitPlatform()
