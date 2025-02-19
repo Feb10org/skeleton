@@ -1,0 +1,14 @@
+{
+  "id": 2002,
+  "name": "test",
+  "category": {
+    "id": 3003,
+    "name": "cats"
+  },
+  "photoUrls": [
+    "http://photo.com/1",
+    "http://photo.com/2"
+  ],
+  "tags": [],
+  "status": "available"
+}
