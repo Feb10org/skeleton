@@ -1,6 +1,6 @@
 package abc.skeleton.integration_tests.endpint;
 
-import abc.skeleton.rest.service.PetService;
+import abc.skeleton.rest_client.service.PetService;
 import com.example.model.PetDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,9 +12,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Container;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Testcontainers
@@ -41,7 +39,7 @@ public class PetRepositoryIntegrationTest {
         PetDto testPet = petService.addPet("Testowy Pet");
 
         PetDto foundPet = petService.getPet(testPet.getId());
-        assertTrue(foundPet != null);
+        assertNotNull(foundPet);
         assertEquals("Testowy Pet", foundPet.getName());
     }
 }
