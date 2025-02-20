@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:16-alpine:///test-db
+    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      mode: always
+
+logging:
+  level:
+    org.springframework.kafka: DEBUG
