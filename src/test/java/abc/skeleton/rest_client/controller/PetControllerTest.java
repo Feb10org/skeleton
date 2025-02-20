@@ -1,6 +1,7 @@
-package abc.skeleton.rest.controller;
+package abc.skeleton.rest_client.controller;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,26 +22,27 @@ class PetControllerTest {
     }
 
     @Test
-    void shouldReturn200() {
+    void shouldAddPetSuccessfully() {
         given()
-            .pathParam("id", 100)
+            .contentType(ContentType.JSON)
+            .body(new PetController.CreatePetDto("teddy"))
             .port(port)
         .when()
-            .get("/pet/{id}")
+            .post("/pet")
         .then()
             .statusCode(200);
     }
 
     @Test
-    void shouldReturnResponseBody() {
+    void shouldRetrievePetSuccessfully() {
         given()
-            .pathParam("id", 100)
+            .pathParam("id", 3003)
             .port(port)
         .when()
             .get("/pet/{id}")
         .then()
             .statusCode(200)
-            .body("name", equalTo("doggi111e"));
+            .body("name", equalTo("teddy"));
     }
 
 }

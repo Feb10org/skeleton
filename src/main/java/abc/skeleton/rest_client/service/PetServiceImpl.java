@@ -1,4 +1,4 @@
-package abc.skeleton.rest.service;
+package abc.skeleton.rest_client.service;
 
 import com.example.api.PetApi;
 import com.example.model.CategoryDto;
@@ -22,12 +22,13 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public PetDto addPet(String name) {
-        return PetDto.builder()
+        PetDto petDto = PetDto.builder()
                 .id(3003L)
                 .category(CategoryDto.builder().id(3003L).name("cats").build())
                 .name(name)
                 .status(PetDto.StatusEnum.AVAILABLE)
                 .photoUrls(List.of("http://photo.com/1", "http://photo.com/2"))
                 .build();
+        return petApi.addPet(petDto);
     }
 }

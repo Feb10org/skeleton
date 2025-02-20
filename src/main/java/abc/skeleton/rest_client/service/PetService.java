@@ -1,4 +1,4 @@
-package abc.skeleton.rest.service;
+package abc.skeleton.rest_client.service;
 
 import com.example.model.PetDto;
 
