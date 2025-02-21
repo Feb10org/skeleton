@@ -47,13 +47,18 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
     implementation("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
-    //    implementation("com.microsoft.sqlserver:mssql-jdbc:12.8.1.jre11")
     implementation("org.openapitools:jackson-databind-nullable:$jacksonDatabindNullableVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+	testImplementation("io.cucumber:cucumber-java:7.21.1")
+	testImplementation("io.cucumber:cucumber-junit-platform-engine:7.21.1")
+	testImplementation("io.cucumber:cucumber-spring:7.21.1")
+	testImplementation("org.junit.platform:junit-platform-suite:1.11.4")
+	runtimeOnly ("com.h2database:h2")
 }
 
 tasks.named<JavaCompile>("compileJava") {
@@ -63,6 +68,9 @@ sourceSets["main"].java.srcDir("${layout.buildDirectory.asFile.get()}/generated/
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    testLogging {
+        events("passed", "failed", "skipped")
+    }
 }
 
 flyway {
