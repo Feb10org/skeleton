@@ -29,3 +29,10 @@ DB is being initialized by the [setup.sql](./docker/db/sql/setup.sql) file
 ### Connection details
 - URL: jdbc:sqlserver://localhost:1433;database=<DB_NAME>
 - db name and credentials: check [.env](./docker/db/.env) file
+
+## Environemnt variables
+Set env vars and start the app:
+```sh
+export PETSTORE_API_BASE_URL="https://petstore3.swagger.io"
+./gradlew bootRun
+```
