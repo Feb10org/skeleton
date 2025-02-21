@@ -24,7 +24,6 @@ public class RequestHandler implements HandlerInterceptor {
         MDC.put("traceId", traceId);
 
         log.info("handle request before goes to controller");
-        response.setHeader(TRACE_ID_HEADER, traceId);
         return true;
     }
 
