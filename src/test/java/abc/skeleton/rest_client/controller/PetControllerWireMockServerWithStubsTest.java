@@ -6,8 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 
-import java.io.IOException;
-
 import static abc.skeleton.rest_client.controller.WireMockResponses.GET_PET_3003_RESPONSE;
 import static abc.skeleton.rest_client.controller.WireMockResponses.ADD_PET_3003_RESPONSE;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
