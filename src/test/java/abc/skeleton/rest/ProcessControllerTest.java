@@ -1,27 +1,16 @@
 package abc.skeleton.rest;
 
-import abc.skeleton.rest.api.SkeletonApiClient;
-import abc.skeleton.rest.controller.ProcessController;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@ExtendWith(MockitoExtension.class)
-@WebMvcTest(ProcessController.class)
+@AutoConfigureMockMvc
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class ProcessControllerTest {
-
-    @Mock
-    private SkeletonApiClient skeletonApiClient;
-
-    @InjectMocks
-    private ProcessController processController;
 
     @Autowired
     private MockMvc mockMvc;
