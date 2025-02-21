@@ -3,7 +3,6 @@ package abc.skeleton.rest_client.controller;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -24,8 +23,8 @@ class PetControllerWireMockTestcontainersWithMappings {
     private static final int WIREMOCK_PORT = 8080;
     @Container
     private static final WireMockContainer wireMockContainer = new WireMockContainer("wiremock/wiremock:latest")
-            .withFileSystemBind("__files", "/home/wiremock/__files", BindMode.READ_WRITE)
-            .withFileSystemBind("mappings", "/home/wiremock/mappings", BindMode.READ_WRITE)
+            .withFileSystemBind("./src/test/resources/__files", "/home/wiremock/__files", BindMode.READ_WRITE)
+            .withFileSystemBind("./src/test/resources/mappings", "/home/wiremock/mappings", BindMode.READ_WRITE)
             .withExposedPorts(WIREMOCK_PORT);
     @LocalServerPort
     private int port;
@@ -54,7 +53,6 @@ class PetControllerWireMockTestcontainersWithMappings {
     }
 
     @Test
-    @Disabled(value = "looks like add-pet-3003-200.json mapping is not working for some reason ?!?")
     void should_add_pet_3003() {
         given()
             .body(new PetController.CreatePetDto("jerry"))
