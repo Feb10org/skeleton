@@ -49,10 +49,8 @@ dependencies {
     //    implementation("com.microsoft.sqlserver:mssql-jdbc:12.8.1.jre11")
     implementation("org.openapitools:jackson-databind-nullable:$jacksonDatabindNullableVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 openApiGenerate {
