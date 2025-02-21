@@ -3,6 +3,7 @@ package abc.skeleton.rest_client.controller;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -22,6 +23,7 @@ class PetControllerTest {
     }
 
     @Test
+    @Disabled(value = "to be enabled wen wiremock change will be merged")
     void shouldAddPetSuccessfully() {
         given()
             .contentType(ContentType.JSON)
@@ -34,6 +36,7 @@ class PetControllerTest {
     }
 
     @Test
+    @Disabled(value = "to be enabled wen wiremock change will be merged")
     void shouldRetrievePetSuccessfully() {
         given()
             .pathParam("id", 3003)

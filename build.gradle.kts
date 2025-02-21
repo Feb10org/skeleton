@@ -40,24 +40,17 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-actuator")
-	//    implementation("com.microsoft.sqlserver:mssql-jdbc:12.8.1.jre11")
-	implementation("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
-
-	compileOnly("org.projectlombok:lombok")
-	annotationProcessor("org.projectlombok:lombok")
-
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
     implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.openapitools:jackson-databind-nullable:$jacksonDatabindNullableVersion")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
     //    implementation("com.microsoft.sqlserver:mssql-jdbc:12.8.1.jre11")
+    implementation("org.openapitools:jackson-databind-nullable:$jacksonDatabindNullableVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
