@@ -1,0 +1,26 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "url": "/api/v3/pet",
+        "method": "POST",
+        "bodyPatterns": [
+          {
+            "equalToJson": {
+              "id": 3003,
+              "name": "jerry"
+            },
+            "ignoreExtraElements": true
+          }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "add-pet-3003-response.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+  ]
+}

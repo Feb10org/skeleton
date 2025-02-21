@@ -35,10 +35,8 @@ dependencies {
 	testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testImplementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:$wiremockTestcontainersVersion")
-//	testImplementation("org.wiremock:wiremock:3.12.0")
-	testImplementation("org.wiremock.integrations:wiremock-spring-boot:3.8.1")
-//	testImplementation("org.testcontainers:wiremock:1.19.3")
 	testImplementation("org.testcontainers:junit-jupiter:1.20.4")
+	testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner:4.2.0")
 }
 
 openApiGenerate {

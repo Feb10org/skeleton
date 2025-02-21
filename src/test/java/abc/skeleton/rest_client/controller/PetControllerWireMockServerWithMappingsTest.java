@@ -1,40 +1,24 @@
 package abc.skeleton.rest_client.controller;
 
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+
+import java.io.IOException;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PetControllerTest {
-
+@AutoConfigureWireMock
+public class PetControllerWireMockServerWithMappingsTest {
     @LocalServerPort
     private int port;
 
-    @BeforeAll
-    static void setup() {
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-    }
-
     @Test
-    void shouldAddPetSuccessfully() {
-        given()
-            .contentType(ContentType.JSON)
-            .body(new PetController.CreatePetDto("teddy"))
-            .port(port)
-        .when()
-            .post("/pet")
-        .then()
-            .statusCode(200);
-    }
-
-    @Test
-    void shouldRetrievePetSuccessfully() {
+    void should_get_pet_3003() {
         given()
             .pathParam("id", 3003)
             .port(port)
@@ -42,7 +26,31 @@ class PetControllerTest {
             .get("/pet/{id}")
         .then()
             .statusCode(200)
-            .body("name", equalTo("teddy"));
+            .body("name", equalTo("mat"));
+    }
+
+    @Test
+    void should_add_pet_3003() {
+        given()
+            .body(new PetController.CreatePetDto("jerry"))
+            .contentType(ContentType.JSON)
+            .port(port)
+        .when()
+            .post("/pet")
+        .then()
+            .statusCode(200)
+            .body("name", equalTo("jerry"));
+    }
+
+    @Test
+    void should_respond_with_err_500_when_pet_not_found() {
+        given()
+            .pathParam("id", 3004)
+            .port(port)
+        .when()
+            .get("/pet/{id}")
+        .then()
+            .statusCode(500);
     }
 
 }
