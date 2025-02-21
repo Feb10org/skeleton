@@ -1,8 +1,10 @@
+val logstashVersion = "8.0"
+
 plugins {
-    java
-    id("org.springframework.boot") version "3.4.2"
-    id("io.spring.dependency-management") version "1.1.7"
-    id("org.flywaydb.flyway") version "11.3.3"
+	java
+	id("org.springframework.boot") version "3.4.2"
+	id("io.spring.dependency-management") version "1.1.7"
+	id("org.flywaydb.flyway") version "11.3.3"
 }
 
 buildscript {
@@ -24,6 +26,12 @@ java {
     }
 }
 
+configurations {
+	compileOnly {
+		extendsFrom(configurations.annotationProcessor.get())
+	}
+}
+
 repositories {
     mavenCentral()
 }
@@ -33,6 +41,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	//    implementation("com.microsoft.sqlserver:mssql-jdbc:12.8.1.jre11")
+	implementation("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
+
+	compileOnly("org.projectlombok:lombok")
+	annotationProcessor("org.projectlombok:lombok")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
