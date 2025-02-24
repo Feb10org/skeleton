@@ -26,9 +26,8 @@ group = "abc"
 version = "0.0.1-SNAPSHOT"
 
 val jaxws = configurations.create("jaxws")
-
-val jaxwsSourceDir = "${buildDir}/generated/sources/jaxws"
 val wsdlApiFile = "$rootDir/resource/api.wsdl"
+val jaxwsSourceDir = "${layout.buildDirectory.asFile.get()}/generated/sources/jaxws"
 
 java {
     toolchain {
@@ -73,16 +72,12 @@ dependencies {
 
 }
 
-java.sourceSets["main"].java.srcDir(jaxwsSourceDir)
-
-tasks.withType<JavaCompile>().configureEach {
-	dependsOn("wsimport")
-}
-
 tasks.named<JavaCompile>("compileJava") {
-    dependsOn("openApiGenerateClient", "openApiGenerateServer")
+    dependsOn("openApiGenerateClient", "openApiGenerateServer", "wsimport")
 }
+
 sourceSets["main"].java.srcDir("${layout.buildDirectory.asFile.get()}/generated/src/main/java")
+sourceSets["main"].java.srcDir(jaxwsSourceDir)
 
 tasks.withType<Test> {
     useJUnitPlatform()
