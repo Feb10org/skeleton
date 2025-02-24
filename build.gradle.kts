@@ -25,6 +25,10 @@ buildscript {
 group = "abc"
 version = "0.0.1-SNAPSHOT"
 
+val jaxws = configurations.create("jaxws")
+val wsdlApiFile = "$rootDir/resource/api.wsdl"
+val jaxwsSourceDir = "${layout.buildDirectory.asFile.get()}/generated/sources/jaxws"
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -59,12 +63,21 @@ dependencies {
 	testImplementation("io.cucumber:cucumber-spring:7.21.1")
 	testImplementation("org.junit.platform:junit-platform-suite:1.11.4")
 	runtimeOnly ("com.h2database:h2")
+	implementation("org.springframework.boot:spring-boot-starter-web-services")
+
+	jaxws("com.sun.xml.ws:jaxws-tools:3.0.0")
+	jaxws("jakarta.xml.bind:jakarta.xml.bind-api:3.0.0")
+	jaxws("jakarta.activation:jakarta.activation-api:2.0.0")
+	jaxws("com.sun.xml.ws:jaxws-rt:3.0.0")
+
 }
 
 tasks.named<JavaCompile>("compileJava") {
-    dependsOn("openApiGenerateClient", "openApiGenerateServer")
+    dependsOn("openApiGenerateClient", "openApiGenerateServer", "wsimport")
 }
+
 sourceSets["main"].java.srcDir("${layout.buildDirectory.asFile.get()}/generated/src/main/java")
+sourceSets["main"].java.srcDir(jaxwsSourceDir)
 
 tasks.withType<Test> {
     useJUnitPlatform()
@@ -116,4 +129,29 @@ tasks.register<GenerateTask>("openApiGenerateServer"){
         "skipDefaultInterface" to "true",
         "useSpringBoot3" to "true",
     ))
+}
+
+val wsimport =  tasks.register("wsimport") {
+	description = "Generate classes from wsdl using wsimport"
+
+	doLast {
+		project.mkdir(jaxwsSourceDir)
+		ant.withGroovyBuilder {
+				"taskdef"("name" to "wsimport",
+						"classname" to "com.sun.tools.ws.ant.WsImport",
+						"classpath" to jaxws.asPath
+				)
+				"wsimport"(
+					"keep" to true,
+					"destdir" to jaxwsSourceDir,
+					"extension" to "true",
+					"verbose" to true,
+					"wsdl" to wsdlApiFile,
+					"xnocompile" to true,
+					"package" to "com.example.consumingwebservice.wsdl"
+						) {
+					"xjcarg"("value" to "-XautoNameResolution")
+				}
+		}
+	}
 }
