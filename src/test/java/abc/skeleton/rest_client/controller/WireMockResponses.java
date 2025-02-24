@@ -34,4 +34,39 @@ public final class WireMockResponses {
               "status": "available"
             }
             """;
+
+    public static final String ADD_PET_3005_RESPONSE = """
+            {
+              "id": 3005,
+              "category": {
+                "id": 1,
+                "name": "cats"
+              },
+              "name": "garfield",
+              "photoUrls": [
+                "http://photo.com/1",
+                "http://photo.com/2"
+              ],
+              "tags": [],
+              "status": "available"
+            }
+            """;
+
+    public static final String GET_PET_3005_RESPONSE = """
+            {
+              "id": 3005,
+              "category": {
+                "id": 1,
+                "name": "cats"
+              },
+              "name": "garfield",
+              "photoUrls": [
+                "http://photo.com/1",
+                "http://photo.com/2"
+              ],
+              "tags": [],
+              "status": "available"
+            }
+            """;
+
 }

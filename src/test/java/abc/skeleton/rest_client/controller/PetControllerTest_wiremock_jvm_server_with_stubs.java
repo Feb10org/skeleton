@@ -1,13 +1,16 @@
 package abc.skeleton.rest_client.controller;
 
+import com.github.tomakehurst.wiremock.stubbing.Scenario;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 
-import static abc.skeleton.rest_client.controller.WireMockResponses.GET_PET_3003_RESPONSE;
 import static abc.skeleton.rest_client.controller.WireMockResponses.ADD_PET_3003_RESPONSE;
+import static abc.skeleton.rest_client.controller.WireMockResponses.ADD_PET_3005_RESPONSE;
+import static abc.skeleton.rest_client.controller.WireMockResponses.GET_PET_3003_RESPONSE;
+import static abc.skeleton.rest_client.controller.WireMockResponses.GET_PET_3005_RESPONSE;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.givenThat;
@@ -19,6 +22,8 @@ import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock
 class PetControllerTest_wiremock_jvm_server_with_stubs {
+    private static final String ADD_PET_SCENARIO = "full add pet scenario";
+    private static final String PET_ADDED = "PET_ADDED";
     @LocalServerPort
     private int port;
 
@@ -54,7 +59,7 @@ class PetControllerTest_wiremock_jvm_server_with_stubs {
         );
 
         given()
-            .body(new PetController.CreatePetDto("test"))
+            .body(new PetController.CreatePetDto("jerry"))
             .contentType(ContentType.JSON)
             .port(port)
         .when()
@@ -82,4 +87,63 @@ class PetControllerTest_wiremock_jvm_server_with_stubs {
             .statusCode(500);
     }
 
+    @Test
+    void full_add_pet_scenario() {
+        givenThat(get(urlPathMatching("/api/v3/pet/3005"))
+                .inScenario(ADD_PET_SCENARIO)
+                .whenScenarioStateIs(Scenario.STARTED)
+                .willReturn(aResponse()
+                        .withStatus(404)
+                        .withHeader("Content-Type", "application/json"))
+        );
+
+        givenThat(post(urlPathMatching("/api/v3/pet"))
+                .inScenario(ADD_PET_SCENARIO)
+                .whenScenarioStateIs(Scenario.STARTED)
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(ADD_PET_3005_RESPONSE))
+                .willSetStateTo(PET_ADDED)
+        );
+
+        givenThat(get(urlPathMatching("/api/v3/pet/3005"))
+                .inScenario(ADD_PET_SCENARIO)
+                .whenScenarioStateIs(PET_ADDED)
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(GET_PET_3005_RESPONSE))
+        );
+
+        // before add garfield pet
+        given()
+            .pathParam("id", 3005)
+            .port(port)
+        .when()
+            .get("/pet/{id}")
+        .then()
+            .statusCode(500);
+
+        // add garfield pet
+        given()
+            .body(new PetController.CreatePetDto("garfield"))
+            .contentType(ContentType.JSON)
+            .port(port)
+        .when()
+            .post("/pet")
+        .then()
+            .statusCode(200)
+            .body("name", equalTo("garfield"));
+
+        // after add garfield pet
+        given()
+            .pathParam("id", 3005)
+            .port(port)
+        .when()
+            .get("/pet/{id}")
+        .then()
+            .statusCode(200)
+            .body("name", equalTo("garfield"));
+    }
 }
