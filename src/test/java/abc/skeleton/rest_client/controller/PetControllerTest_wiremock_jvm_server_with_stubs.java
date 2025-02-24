@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock
-public class PetControllerWireMockServerWithStubsTest {
+class PetControllerTest_wiremock_jvm_server_with_stubs {
     @LocalServerPort
     private int port;
 
