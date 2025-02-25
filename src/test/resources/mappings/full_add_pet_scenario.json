@@ -1,0 +1,50 @@
+{
+  "mappings": [
+    {
+      "scenarioName": "FULL_ADD_PET_SCENARIO",
+      "requiredScenarioState": "Started",
+      "newScenarioState": "BEFORE_ADD_PET",
+      "request": {
+        "url": "/api/v3/pet/3005",
+        "method": "GET"
+      },
+      "response": {
+        "status": 404
+      }
+    },
+
+    {
+      "scenarioName": "FULL_ADD_PET_SCENARIO",
+      "requiredScenarioState": "BEFORE_ADD_PET",
+      "newScenarioState": "PET_ADDED",
+      "request": {
+        "url": "/api/v3/pet",
+        "method": "POST"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "full_add_pet_scenario_response_2.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+
+    {
+      "scenarioName": "FULL_ADD_PET_SCENARIO",
+      "requiredScenarioState": "PET_ADDED",
+      "request": {
+        "url": "/api/v3/pet/3005",
+        "method": "GET"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "full_add_pet_scenario_response_3.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+
+  ]
+}

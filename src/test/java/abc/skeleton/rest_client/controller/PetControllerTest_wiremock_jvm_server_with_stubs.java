@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock
 class PetControllerTest_wiremock_jvm_server_with_stubs {
-    private static final String ADD_PET_SCENARIO = "full add pet scenario";
+    private static final String FULL_ADD_PET_SCENARIO = "FULL_ADD_PET_SCENARIO";
     private static final String PET_ADDED = "PET_ADDED";
     @LocalServerPort
     private int port;
@@ -90,7 +90,7 @@ class PetControllerTest_wiremock_jvm_server_with_stubs {
     @Test
     void full_add_pet_scenario() {
         givenThat(get(urlPathMatching("/api/v3/pet/3005"))
-                .inScenario(ADD_PET_SCENARIO)
+                .inScenario(FULL_ADD_PET_SCENARIO)
                 .whenScenarioStateIs(Scenario.STARTED)
                 .willReturn(aResponse()
                         .withStatus(404)
@@ -98,7 +98,7 @@ class PetControllerTest_wiremock_jvm_server_with_stubs {
         );
 
         givenThat(post(urlPathMatching("/api/v3/pet"))
-                .inScenario(ADD_PET_SCENARIO)
+                .inScenario(FULL_ADD_PET_SCENARIO)
                 .whenScenarioStateIs(Scenario.STARTED)
                 .willReturn(aResponse()
                         .withStatus(200)
@@ -108,7 +108,7 @@ class PetControllerTest_wiremock_jvm_server_with_stubs {
         );
 
         givenThat(get(urlPathMatching("/api/v3/pet/3005"))
-                .inScenario(ADD_PET_SCENARIO)
+                .inScenario(FULL_ADD_PET_SCENARIO)
                 .whenScenarioStateIs(PET_ADDED)
                 .willReturn(aResponse()
                         .withStatus(200)
