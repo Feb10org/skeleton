@@ -1,0 +1,14 @@
+{
+  "id": 3005,
+  "category": {
+    "id": 1,
+    "name": "cats"
+  },
+  "name": "garfield",
+  "photoUrls": [
+    "http://photo.com/1",
+    "http://photo.com/2"
+  ],
+  "tags": [],
+  "status": "available"
+}

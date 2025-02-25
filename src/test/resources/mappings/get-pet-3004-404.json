@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "/api/v3/pet/3004",
+    "method": "GET"
+  },
+  "response": {
+    "status": 404,
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

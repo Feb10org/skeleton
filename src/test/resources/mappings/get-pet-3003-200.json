@@ -1,0 +1,13 @@
+{
+  "request": {
+    "url": "/api/v3/pet/3003",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "get-pet-3003-200-response.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

@@ -18,6 +18,7 @@ public class PetServiceImpl implements PetService {
 
     public PetDto getPet(Long id) {
         return petApi.getPetById(id);
+        // TODO: handle RestClientResponseException here
     }
 
     @Override
@@ -30,5 +31,6 @@ public class PetServiceImpl implements PetService {
                 .photoUrls(List.of("http://photo.com/1", "http://photo.com/2"))
                 .build();
         return petApi.addPet(petDto);
+        // TODO: handle RestClientResponseException here
     }
 }
