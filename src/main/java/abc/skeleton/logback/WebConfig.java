@@ -1,4 +1,4 @@
-package abc.skeleton.rest_client.config;
+package abc.skeleton.logback;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;

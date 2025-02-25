@@ -1,5 +1,8 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
 val jacksonDatabindNullableVersion = "0.2.6"
 val restAssuredVersion = "5.5.0"
+val logstashVersion = "8.0"
 val wiremockTestcontainersVersion = "1.0-alpha-14"
 val testcontainersJunitVersion = "1.20.4"
 val springContractStubRunnerVersion = "4.2.0"
@@ -9,15 +12,35 @@ plugins {
 	id("org.springframework.boot") version "3.4.2"
 	id("io.spring.dependency-management") version "1.1.7"
 	id("org.openapi.generator") version "7.11.0"
-	id("io.freefair.lombok") version "8.6"
+	id("org.flywaydb.flyway") version "11.3.3"
+}
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.flywaydb:flyway-sqlserver:11.3.3")
+		classpath("com.microsoft.sqlserver:mssql-jdbc:12.8.1.jre11")
+	}
 }
 
 group = "abc"
 version = "0.0.1-SNAPSHOT"
 
+val jaxws = configurations.create("jaxws")
+val wsdlApiFile = "$rootDir/resource/api.wsdl"
+val jaxwsSourceDir = "${layout.buildDirectory.asFile.get()}/generated/sources/jaxws"
+
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom(configurations.annotationProcessor.get())
 	}
 }
 
@@ -28,20 +51,60 @@ repositories {
 dependencies {
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
-	testCompileOnly("org.projectlombok:lombok")
-	testAnnotationProcessor("org.projectlombok:lombok")
-	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+	implementation("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
 	implementation("org.openapitools:jackson-databind-nullable:$jacksonDatabindNullableVersion")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testImplementation("io.cucumber:cucumber-java:7.21.1")
+	testImplementation("io.cucumber:cucumber-junit-platform-engine:7.21.1")
+	testImplementation("io.cucumber:cucumber-spring:7.21.1")
+	testImplementation("org.junit.platform:junit-platform-suite:1.11.4")
 	testImplementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:$wiremockTestcontainersVersion")
 	testImplementation("org.testcontainers:junit-jupiter:$testcontainersJunitVersion")
 	testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner:$springContractStubRunnerVersion")
+	runtimeOnly ("com.h2database:h2")
+	implementation("org.springframework.boot:spring-boot-starter-web-services")
+
+	jaxws("com.sun.xml.ws:jaxws-tools:3.0.0")
+	jaxws("jakarta.xml.bind:jakarta.xml.bind-api:3.0.0")
+	jaxws("jakarta.activation:jakarta.activation-api:2.0.0")
+	jaxws("com.sun.xml.ws:jaxws-rt:3.0.0")
+
 }
 
-openApiGenerate {
+tasks.named<JavaCompile>("compileJava") {
+	dependsOn("openApiGenerateClient", "openApiGenerateServer", "wsimport")
+}
+
+sourceSets["main"].java.srcDir("${layout.buildDirectory.asFile.get()}/generated/src/main/java")
+sourceSets["main"].java.srcDir(jaxwsSourceDir)
+
+tasks.withType<Test> {
+	useJUnitPlatform()
+	testLogging {
+		events("passed", "failed", "skipped")
+	}
+}
+
+flyway {
+	url = "jdbc:sqlserver://localhost:1433;databaseName=skeleton_db;encrypt=false"
+	user = "skeleton"
+	password = "skele@Ton123"
+	locations = arrayOf("filesystem:src/db/migration")
+}
+
+val apiBasePackage = "com.sample"
+val generatedDirPath = "$buildDir/generated"
+val apiFile = "$rootDir/resource/api.yml"
+
+
+tasks.register<GenerateTask>("openApiGenerateClient"){
 	generatorName.set("java")
 	inputSpec.set("$rootDir/src/main/resources/remote_apis/petstore_api.yaml")
 	outputDir.set("${layout.buildDirectory.asFile.get()}/generated")
@@ -60,12 +123,41 @@ openApiGenerate {
 	generateModelTests.set(false)
 }
 
-tasks.named<JavaCompile>("compileJava") {
-	dependsOn("openApiGenerate")
+tasks.register<GenerateTask>("openApiGenerateServer"){
+	generatorName.set("spring")
+	inputSpec.set(apiFile)
+	outputDir.set(generatedDirPath)
+	apiPackage.set("$apiBasePackage.api")
+	invokerPackage.set("$apiBasePackage.invoker")
+	modelPackage.set("$apiBasePackage.model")
+	configOptions.set(mapOf(
+		"interfaceOnly" to "true",
+		"skipDefaultInterface" to "true",
+		"useSpringBoot3" to "true",
+	))
 }
 
-sourceSets["main"].java.srcDir("${layout.buildDirectory.asFile.get()}/generated/src/main/java")
+val wsimport =  tasks.register("wsimport") {
+	description = "Generate classes from wsdl using wsimport"
 
-tasks.withType<Test> {
-	useJUnitPlatform()
+	doLast {
+		project.mkdir(jaxwsSourceDir)
+		ant.withGroovyBuilder {
+			"taskdef"("name" to "wsimport",
+				"classname" to "com.sun.tools.ws.ant.WsImport",
+				"classpath" to jaxws.asPath
+			)
+			"wsimport"(
+				"keep" to true,
+				"destdir" to jaxwsSourceDir,
+				"extension" to "true",
+				"verbose" to true,
+				"wsdl" to wsdlApiFile,
+				"xnocompile" to true,
+				"package" to "com.example.consumingwebservice.wsdl"
+			) {
+				"xjcarg"("value" to "-XautoNameResolution")
+			}
+		}
+	}
 }

@@ -9,8 +9,8 @@ import org.springframework.http.client.ClientHttpResponse;
 
 import java.io.IOException;
 
-import static abc.skeleton.rest_client.config.RequestHandler.TRACE_ID;
-import static abc.skeleton.rest_client.config.RequestHandler.TRACE_ID_HEADER;
+import static abc.skeleton.logback.RequestHandler.TRACE_ID;
+import static abc.skeleton.logback.RequestHandler.TRACE_ID_HEADER;
 
 public class CorrelationIdInterceptor implements ClientHttpRequestInterceptor {
 

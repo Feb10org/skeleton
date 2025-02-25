@@ -1,0 +1,26 @@
+openapi: 3.0.0
+info:
+  title: Test user API
+  description: Test user API
+  version: 0.0.1
+
+servers:
+  - url: http://api.dev.com/
+    description: server description - dev
+  - url: http://api.stg.com/
+    description: server description - stg
+
+paths:
+  /users:
+    get:
+      summary: get a list of users
+      description: get a list of users
+      responses:
+        "200":
+          description: user names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string

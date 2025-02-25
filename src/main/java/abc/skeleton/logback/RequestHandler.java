@@ -1,4 +1,4 @@
-package abc.skeleton.rest_client.config;
+package abc.skeleton.logback;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,8 +13,8 @@ import static java.util.UUID.randomUUID;
 @Slf4j
 public class RequestHandler implements HandlerInterceptor {
 
-    static final String TRACE_ID_HEADER = "X-Trace-Id";
-    static final String TRACE_ID = "traceId";
+    public static final String TRACE_ID_HEADER = "X-Trace-Id";
+    public static final String TRACE_ID = "traceId";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -27,6 +27,7 @@ public class RequestHandler implements HandlerInterceptor {
         log.info("handle request before goes to controller");
         return true;
     }
+
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
