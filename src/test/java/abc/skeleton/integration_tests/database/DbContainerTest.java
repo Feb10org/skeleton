@@ -17,9 +17,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 @SpringBootTest
 class DbContainerTest {
+
     @Container
-    private static final MSSQLServerContainer<?> sqlServer = new MSSQLServerContainer<>("mcr.microsoft.com/mssql/server:2019-latest")
-            //"mcr.microsoft.com/azure-sql-edge:latest"
+    private static final MSSQLServerContainer<?> sqlServer = new MSSQLServerContainer<>("mcr.microsoft.com/mssql/server:latest")
             .acceptLicense()
             .withInitScript("init.sql");
 

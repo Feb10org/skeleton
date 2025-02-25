@@ -1,0 +1,25 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      # Change this password in production!
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${DB_USER_PWD}
+      - MSSQL_PID=Developer
+      # Configure memory limits (optional)
+      - MSSQL_MEMORY_LIMIT_MB=2048
+      # Set timezone
+      - TZ=UTC
+    ports:
+      - "1433:1433"
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 3G
+        reservations:
+          memory: 2G
+    command: /opt/mssql/bin/sqlservr
+    restart: always
+    volumes:
+      - ./src/test/resources/sql/init.sql:/tmp/init.sql

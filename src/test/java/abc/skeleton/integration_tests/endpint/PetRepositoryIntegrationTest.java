@@ -16,12 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Testcontainers
-@ActiveProfiles("integrationtest")
+@ActiveProfiles("integration-test")
 public class PetRepositoryIntegrationTest {
 
     @Container
     public static MSSQLServerContainer<?> sqlServer =
-            new MSSQLServerContainer<>("mcr.microsoft.com/azure-sql-edge:latest")
+            new MSSQLServerContainer<>("mcr.microsoft.com/mssql/server:latest")
                     .acceptLicense();
 
     @DynamicPropertySource

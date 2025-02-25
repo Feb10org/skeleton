@@ -88,6 +88,8 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter")
 	testImplementation("org.springframework.boot:spring-boot-test")
+
+    implementation("io.github.cdimascio:dotenv-java:3.1.0")
 }
 
 openApiGenerate {
